@@ -358,11 +358,8 @@ class Battery(PowerSource):
 
             self.simulate_power(time_step=index_time_step) #, cycles=self.dispatch.lifecycles[t])
 
-        if self.config.system_model_source == "hopp":
+        if self.config.system_model_source == "hopp" and self.dispatch.options.include_lifecycle_count:
             self.cycle_count += self.dispatch.lifecycles[0]
-
-        # print('CYCLES', self.dispatch.lifecycles, self.outputs.n_cycles[0:100])
-        # print('cycle count', self.cycle_count)
 
         # Store Dispatch model values
         if sim_start_time is not None:
@@ -370,9 +367,8 @@ class Battery(PowerSource):
             self.outputs.dispatch_SOC[time_slice] = self.dispatch.soc[0:n_periods]
             self.outputs.dispatch_P[time_slice] = self.dispatch.power[0:n_periods]
             self.outputs.dispatch_I[time_slice] = self.dispatch.current[0:n_periods]
-            if self.config.system_model_source == "hopp":
+            if self.config.system_model_source == "hopp" and self.dispatch.options.include_lifecycle_count:
                 self.outputs.n_cycles[time_slice] = [math.floor(self.cycle_count)]*int(n_periods)
-            # print('lifecycles', self.dispatch.lifecycles[0:n_periods])
             if self.dispatch.options.include_lifecycle_count:
                 days_in_period = n_periods // (self.site.n_periods_per_day)
                 start_day = sim_start_time // self.site.n_periods_per_day
@@ -411,12 +407,9 @@ class Battery(PowerSource):
                     getattr(self.outputs, attr)[time_step] = self.value(attr)
             else:
                 if hasattr(self._system_model.state, attr):
-                    print("is this happening?")
-                    print("attr", attr)
                     getattr(self.outputs, attr)[time_step] = self.value(attr)
-                    if attr == 'n_cycles':
+                    if attr == 'n_cycles' and self.dispatch.options.include_lifecycle_count:
                         getattr(self.outputs, attr)[time_step] = math.floor(self.dispatch.lifecycles[0])
-                        print(self.value('n_cycles'))
             if attr == 'gen':
                 getattr(self.outputs, attr)[time_step] = self.value('P')
 
