@@ -86,7 +86,6 @@ class BatteryConfig(BaseClass):
                 - "NMCGraphite"
             HOPP options:
                 - "LDES" generic long-duration energy storage
-                - "AEF" Aqueous electrolyte flow battery
         minimum_SOC: Minimum state of charge [%]
         maximum_SOC: Maximum state of charge [%]
         initial_SOC: Initial state of charge [%]
@@ -97,7 +96,7 @@ class BatteryConfig(BaseClass):
     system_capacity_kwh: float = field(validator=gt_zero)
     system_capacity_kw: float = field(validator=gt_zero)
     system_model_source: str = field(default="pysam", validator=contains(["pysam", "hopp"]))
-    chemistry: str = field(default="LFPGraphite", validator=contains(["LFPGraphite", "LMOLTO", "LeadAcid", "NMCGraphite", "LDES", "AEF"]))
+    chemistry: str = field(default="LFPGraphite", validator=contains(["LFPGraphite", "LMOLTO", "LeadAcid", "NMCGraphite", "LDES"]))
     tracking: bool = field(default=True)
     minimum_SOC: float = field(default=10, validator=range_val(0, 100))
     maximum_SOC: float = field(default=90, validator=range_val(0, 100))
@@ -240,7 +239,7 @@ class Battery(PowerSource):
 
     @system_capacity_kw.setter
     def system_capacity_kw(self, size_kw: float):
-        self._financial_model.value("system_capacity", size_kw) 
+        self._financial_model.value("system_capacity", size_kw)
         self._system_capacity_kw = size_kw
 
     @property
@@ -401,13 +400,15 @@ class Battery(PowerSource):
             if self.config.system_model_source == "pysam":
                 if hasattr(self._system_model.StatePack, attr) or hasattr(self._system_model.StateCell, attr):
                     getattr(self.outputs, attr)[time_step] = self.value(attr)
+                elif attr == 'gen':
+                    getattr(self.outputs, attr)[time_step] = self.value('P')
             else:
                 if hasattr(self._system_model.state, attr):
                     getattr(self.outputs, attr)[time_step] = self.value(attr)
                     if attr == 'n_cycles' and self.dispatch.options.include_lifecycle_count:
                         getattr(self.outputs, attr)[time_step] = math.floor(self.dispatch.lifecycles[0])
-            if attr == 'gen':
-                getattr(self.outputs, attr)[time_step] = self.value('P')
+                elif attr == 'gen':
+                    getattr(self.outputs, attr)[time_step] = self.value('P')
 
     def validate_replacement_inputs(self, project_life):
         """
@@ -423,9 +424,9 @@ class Battery(PowerSource):
             self._financial_model.value('batt_bank_replacement', [0] * (project_life + 1))
 
         if self._financial_model.value('batt_replacement_option') == 2:
-            if len(self._financial_model.value('batt_replacement_schedule_percent')) != project_life:
+            if (len(self._financial_model.value('batt_replacement_schedule_percent')) != project_life):
                 raise ValueError(f"Error in Battery model: `batt_replacement_schedule_percent` should be length of project_life {project_life} but is instead {len(self._financial_model.value('batt_replacement_schedule_percent'))}")
-            if len(self._financial_model.value('batt_bank_replacement')) != project_life + 1:
+            if (len(self._financial_model.value('batt_bank_replacement')) != project_life + 1) and (type(self._financial_model) is not CustomFinancialModel):
                 if len(self._financial_model.value('batt_bank_replacement')) == project_life:
                     # likely an input mistake: add a zero for financial year 0 
                     self._financial_model.value('batt_bank_replacement', [0] + list(self._financial_model.value('batt_bank_replacement')))
