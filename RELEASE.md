@@ -5,6 +5,7 @@
 * Loosened strictness of comparison for wind turbine config checking and added tests
 * Loosened strictness of comparison for wind turbine hub-height and wind resource hub-height
 * Updated workflow for specifying wind turbine parameters without specifying a turbine name with PySAM.
+* Add long-duration energy storage (LDES)
 
 ## Version 3.2.0, March 21, 2025
 
