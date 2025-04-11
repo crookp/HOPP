@@ -372,7 +372,7 @@ class Battery(PowerSource):
 
         # logger.info("battery.outputs at start time {}".format(sim_start_time, self.outputs))
 
-    def simulate_power(self, time_step=None):#, cycles=0):
+    def simulate_power(self, time_step=None):
         """
         Runs battery simulate and stores values if time step is provided
 
