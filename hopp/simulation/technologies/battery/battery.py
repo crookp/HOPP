@@ -351,7 +351,7 @@ class Battery(PowerSource):
             else:
                 index_time_step = None
 
-            self.simulate_power(time_step=index_time_step) #, cycles=self.dispatch.lifecycles[t])
+            self.simulate_power(time_step=index_time_step)
 
         if self.config.system_model_source == "hopp" and self.dispatch.options.include_lifecycle_count:
             self.cycle_count += self.dispatch.lifecycles[0]
