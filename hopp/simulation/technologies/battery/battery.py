@@ -151,7 +151,7 @@ class Battery(PowerSource):
 
         self.outputs = BatteryOutputs(n_timesteps=self.site.n_timesteps, n_periods_per_day=self.site.n_periods_per_day)
         
-        self.system_capacity_kw = self.config.system_capacity_kw ## failing here on the set
+        self.system_capacity_kw = self.config.system_capacity_kw
 
         self.chemistry = self.config.chemistry
         if self.config.system_model_source == "pysam":
