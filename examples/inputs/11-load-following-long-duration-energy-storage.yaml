@@ -31,4 +31,4 @@ config:
     storage_installed_cost_mwh: 500000
     storage_installed_cost_mw: 1000000
     battery_om_per_kw: 40.0
-    battery_om_per_kwh: 0.0
+    battery_om_per_kwh: 0.0 # this value is here as a place holder for the sake of the example
