@@ -3,6 +3,8 @@ from pyomo.environ import units as u
 
 import PySAM.BatteryStateful as PySAMBatteryModel
 
+import hopp.simulation.technologies.ldes.ldes_system_model as ldes #TODO is there a more elegant way to handle this type check without a circular import?
+
 from hopp.simulation.technologies.dispatch.power_storage.power_storage_dispatch import (
     PowerStorageDispatch,
 )
@@ -69,8 +71,7 @@ class SimpleBatteryDispatch(PowerStorageDispatch):
 
     def _set_control_mode(self):
         """Sets control mode."""
-        from hopp.simulation.technologies.ldes.ldes_system_model import LDES as LDESStateful #TODO is there a more elegant way to handle this type check without a circular import?
-        if isinstance(self._system_model, Union[PySAMBatteryModel.BatteryStateful, LDESStateful]):
+        if isinstance(self._system_model, Union[PySAMBatteryModel.BatteryStateful, ldes.LDES]):
             self._system_model.value("control_mode", 1.0)  # Power control
             self._system_model.value("input_power", 0.0)
             self.control_variable = "input_power"

@@ -8,9 +8,6 @@ from hopp.simulation.technologies.power_source import PowerSource
 from hopp.utilities.validators import range_val
 from hopp.simulation.base import BaseClass
 
-# from hopp.simulation.technologies.battery import BatteryConfig
-
-
 @define 
 class LDESConfig(BaseClass):
     """
@@ -172,7 +169,7 @@ class LDES(PowerSource):
 
         return eff_loss_pr_cycle
     
-    def execute(self):
+    def execute(self, verbosity=0):
         """Execute battery simulation with the specified level of verbosity. This
         mimics the PySAM battery model execute function.
 
@@ -180,9 +177,6 @@ class LDES(PowerSource):
             verbosity (int, optional): Verbosity level (0, or 1). 
                 0 means no extra printing, 1 means more printing. Defaults to 0.
         """
-        
-        # TODO add degradation
-        # TODO get cycles
 
         dt_hr = self.value('dt_hr')
         max_soc_dec = self.maximum_SOC/100.0
@@ -322,14 +316,3 @@ class LDES(PowerSource):
     def n_cycles(self, lifecycles: float):
         self.dispatch.value("lifecycles", lifecycles)
         self.n_cycles = lifecycles
-    # @ property
-    # def footprint_area() -> float:
-    #     return None
-    
-    # @property
-    # def system_mas() -> float:
-    #     return None
-
-class LDESTools:
-
-    dummy: 0

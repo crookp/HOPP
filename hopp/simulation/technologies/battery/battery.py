@@ -183,10 +183,7 @@ class Battery(PowerSource):
 
     def setup_system_model(self):
         """Executes Stateful Battery setup"""
-        if self.config.system_model_source == "pysam":
-            self._system_model.setup()
-        else:
-            pass
+        self._system_model.setup()
 
     @property
     def system_capacity_voltage(self) -> tuple:
