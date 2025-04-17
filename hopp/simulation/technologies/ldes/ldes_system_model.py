@@ -172,7 +172,7 @@ class LDES(PowerSource):
 
         return eff_loss_pr_cycle
     
-    def execute(self, cycles, verbosity=0):
+    def execute(self):
         """Execute battery simulation with the specified level of verbosity. This
         mimics the PySAM battery model execute function.
 
@@ -212,55 +212,6 @@ class LDES(PowerSource):
         self.state.P = control_power
         self.state.gen = self.state.P
         self.state.SOC += (-control_power*dt_hr/self.system_capacity_kwh ) * 100
-
-        # need to set
-        # ['I', 'P', 'Q', 'SOC', 'T_batt', 'gen', 'n_cycles']
-        # input_power, input_current
-
-        #
-        # - must have
-        #     [x] power capacity
-        #     [x] duration
-        #     - dicharge penalty
-
-        # - team agrees that
-        #     - including degradation on time and degradation on cycles
-        #         - should be able to do just time
-        #         - should be able to do just cycles (rainflow - already in hopp)
-        #         - should be able to combine time and cycles
-        #     - need charge and discharge rates
-
-        # stateful_attributes = ['I', 'P', 'Q', 'SOC', 'T_batt', 'gen', 'n_cycles']
-        # what I get from dispatch
-
-
-        # needed attributes set here
-        # P (power/gen)
-
-
-        # trying to figure out what to pull from for the battery model
-        # following is from PySAM
-        # energy_hourly_kW
-        # Power output of array [kW]
-
-        # Info: Lifetime system generation
-
-        # INOUT: This variable is both an input and an output to the compute module.
-
-        # Required: Required if en_wave_batt=1
-
-        # Type
-        # :
-        # sequence
-        # gen
-        # System power generated [kW]
-
-        # INOUT: This variable is both an input and an output to the compute module.
-
-        # Type
-        # :
-        # sequence
-
 
     @property
     def control_mode(self):

@@ -381,10 +381,8 @@ class Battery(PowerSource):
         """
         if not self._system_model:
             return
-        if self.config.system_model_source == "pysam":
-            self._system_model.execute(0)   # TODO mimic this function in LDES model - needs to update SOC? - needs 
-        else:
-            self._system_model.execute(0)
+        
+        self._system_model.execute(0)
 
         if time_step is not None:
             self.update_battery_stored_values(time_step)
