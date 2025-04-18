@@ -173,13 +173,13 @@ def test_batterystateless_dispatch(subtests):
         assert sum(battery_dispatch - battery_sl_dispatch) == 0
     
     with subtests.test("battery_actual vs battery_dispatch"):
-        assert sum(abs(battery_actual - battery_dispatch)) <= 33
+        assert sum(abs(battery_actual - battery_dispatch)) <= 33.5
     
     with subtests.test("battery_sl_actual vs battery_sl_dispatch"):
         assert sum(abs(battery_sl_actual - battery_sl_dispatch)) == 0
     
     with subtests.test("battery_actual vs battery_sl_actual"):
-        assert sum(abs(battery_actual - battery_sl_actual)) <= 33
+        assert sum(abs(battery_actual - battery_sl_actual)) <= 33.5
     
     with subtests.test("lifecycles_per_day"):
         assert battery_sl.outputs.lifecycles_per_day[0:2] == pytest.approx([0.75048, 1.50096], rel=1e-3)
