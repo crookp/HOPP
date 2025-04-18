@@ -524,17 +524,17 @@ def test_hybrid_simple_pv_with_wind_wave_ldes_storage_dispatch(subtests):
 
     npv_expected_pv = -1640023
     npv_expected_wind = -5159400
-    npv_expected_wave = -62903172
+    npv_expected_wave = -57994156
     npv_expected_battery = -8155345
-    npv_expected_hybrid = -77887529
+    npv_expected_hybrid = -72948345
 
     lcoe_expected_pv = 3.104064331441355
     lcoe_expected_wind = 3.162940789633178
-    lcoe_expected_wave = 35.719370712383856
+    lcoe_expected_wave = 33.09696662806905
     lcoe_expected_battery = 18.00083292429152
-    lcoe_expected_hybrid = 11.73049146274628
+    lcoe_expected_hybrid = 11.14715145739659
 
-    total_installed_cost_expected = 93959704.39847898
+    total_installed_cost_expected = 89050689.65833203
 
     interconnect_kw = 20000
     pv_kw = 5000
@@ -697,24 +697,24 @@ def test_hybrid_simple_pv_with_wind_wave_battery_replacement_schedule(subtests):
 
     npv_expected_pv = -1640023
     npv_expected_wind = -5159400
-    npv_expected_wave = -62903172
+    npv_expected_wave = -57994156
     # npv_expected_battery = -8183543 # value expected if no battery replacement schedule is provided
     npv_expected_battery = -8189905
-    npv_expected_hybrid = -77887529
+    npv_expected_hybrid = -72978515
 
     lcoe_expected_pv = 3.104064331441355
     lcoe_expected_wind = 3.162940789633178
-    lcoe_expected_wave = 35.719370712383856
+    lcoe_expected_wave = 33.09696662806905
     # lcoe_expected_battery = 13.333128855903514 # value expected if no battery replacement schedule is provided
     lcoe_expected_battery = 18.018052581528185
     # lcoe_expected_hybrid = 11.337551789830751 # value expected if no battery replacement schedule is provided
-    lcoe_expected_hybrid = 11.752110221207754
+    lcoe_expected_hybrid = 11.167675207853105
 
     total_installed_cost_expected_pv = 4799592.0
     total_installed_cost_expected_wind = 14540000.0
-    total_installed_cost_expected_wave = 66465112.4
+    total_installed_cost_expected_wave = 61556097.6
     total_installed_cost_expected_battery = 8155000.0
-    total_installed_cost_expected_hybrid = 93959704.4
+    total_installed_cost_expected_hybrid = 89050689.6
 
     interconnect_kw = 20000
     pv_kw = 5000
