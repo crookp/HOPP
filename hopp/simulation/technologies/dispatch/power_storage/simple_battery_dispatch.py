@@ -3,8 +3,7 @@ from pyomo.environ import units as u
 
 import PySAM.BatteryStateful as PySAMBatteryModel
 
-import hopp.simulation.technologies.ldes.ldes_system_model as ldes #TODO is there a more elegant way to handle this type check without a circular import?
-
+import hopp.simulation.technologies.ldes.ldes_system_model as ldes
 from hopp.simulation.technologies.dispatch.power_storage.power_storage_dispatch import (
     PowerStorageDispatch,
 )

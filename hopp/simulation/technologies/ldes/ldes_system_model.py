@@ -48,10 +48,6 @@ class Params:
     valid_control_modes = [0.0, 1.0] # control mode 1 is power in kW, control mode 0 is current in A
     control_mode: float = field(default=1.0, validator=validators.in_(valid_control_modes)) # TODO how set?
     dt_hr: float = field(default=1.0, validator=validators.gt(0.0))
-    # charge_rate: float
-    # discharge_rate: float
-    # mass: float 
-    # surface_area: float
 
 @define
 class State:
@@ -64,23 +60,13 @@ class State:
     n_cycles: float = field(default=0)
     input_power: float = field(default=None)
     input_current: float = field(default=None)
-    # ['I', 'P', 'Q', 'SOC', 'T_batt', 'gen', 'n_cycles']
 
 @define
 class LDES(PowerSource):
-    """self.name = name
-        self.site = site
-        self._system_model = system_model
-        self._financial_model = financial_model
-        self._layout = None
-        self._dispatch = PowerSourceDispatch"""
-    
     config: LDESConfig = field()
     site: SiteInfo = field()
     
     def __attrs_post_init__(self):
-        
-
         if self.config.fin_model is None:
             raise AttributeError("Financial model must be set in `config.fin_model`")
 
@@ -109,17 +95,6 @@ class LDES(PowerSource):
         
 
         super().__init__(self.config.name, self.site, self, financial_model)
-        # self.sizing(self.config.system_capacity_kw, rating_kwh=self.config.system_capacity_kwh)
-
-    # def __attrs_post_init__(self):
-    #     """Auto-populate _parameters with class attributes on initialization. Method generated using ChatGPT"""
-    #     self._parameters = {name: getattr(self, name) for name in fields_dict(self.__class__) if not name.startswith("_")}
-
-    # def value(self, key: str, val=None):
-    #     """Getter and setter for attributes using _parameters. Method generated using ChatGPT"""
-    #     if val is None:
-    #         return getattr(self, key)  # Get the attribute directly
-    #     setattr(self, key, val)  # Set attribute, which auto-updates _parameters
 
     def setup(self):
         pass
