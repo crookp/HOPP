@@ -130,7 +130,9 @@ class WindPlant(PowerSource):
     site: SiteInfo
     config: WindConfig
 
-    config_name: str = field(init=False, default="WindPowerSingleOwner")
+    config_name: str = field(
+        init=False, default="WindPowerSingleOwner"
+    )  # config_name will always be WindPowerSingleOwner?
     _rating_range_kw: Tuple[int, int] = field(init=False)
 
     def __attrs_post_init__(self):
@@ -188,12 +190,7 @@ class WindPlant(PowerSource):
                 for k, v in input_dict.items():
                     system_model.value(k, v)
 
-                wind_farm_xCoordinates = input_dict['Farm']['wind_farm_xCoordinates']
-                nTurbs = len(wind_farm_xCoordinates)
                 system_model.value("wind_resource_data", self.site.wind_resource.data)
-
-                # turbine power curve (array of kW power outputs)
-                self.wind_turbine_powercurve_powerout = [1] * nTurbs            
 
             if financial_model is None:
                 # default
