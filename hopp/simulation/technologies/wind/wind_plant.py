@@ -47,7 +47,8 @@ class WindConfig(BaseClass):
             - 'custom': use a user-provided layout
             - 'floris_layout': use layout provided in `floris_config`.
         model_name (str): which model to use. Options are 'floris' and 'pysam'
-        model_input_file (str): file specifying a full PySAM input
+        model_input_file (str | dict, Optional): file specifying a full PySAM input or dictionary
+            matching the format of PySAM JSON output
         layout_params (obj | dict, Optional): layout configuration object corresponding to 
             `layout_mode` or dictionary.
         rating_range_kw (Tuple[int]): allowable kw range of turbines, default is 1000 - 3000 kW
@@ -177,11 +178,15 @@ class WindPlant(PowerSource):
                 system_model = Windpower.default(self.config_name)
             else:
                 # initialize system using pysam input file
-                input_file_path = resource_file_converter(self.config.model_input_file)
-                input_dict = load_yaml(input_file_path)
+                if isinstance(self.config.model_input_file, str):
+                    input_file_path = resource_file_converter(self.config.model_input_file)
+                    input_dict = load_yaml(input_file_path)
+                else:
+                    input_dict = self.config.model_input_file
 
                 system_model = Windpower.new()
-                system_model.assign(input_dict)
+                for k, v in input_dict.items():
+                    system_model.value(k, v)
 
                 wind_farm_xCoordinates = input_dict['Farm']['wind_farm_xCoordinates']
                 nTurbs = len(wind_farm_xCoordinates)
